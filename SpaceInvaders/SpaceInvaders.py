@@ -1,12 +1,13 @@
 import pgzrun
+from random import random
 player = Actor("topdownfighter.png")
 player.x = 400
 player.y = 600 - player.height*0.5
 aliens = []
 def add_alien():
     alien = Actor("alienshiptex")
-    alien.x = 400
-    alien.y = 150
+    alien.x = alien.width * 0.5 + (800 - alien.width) * random()
+    alien.y = alien.height * 0.5
     aliens.append(alien)
 clock.schedule_interval(add_alien, 5)    
 lasers = []
@@ -22,6 +23,13 @@ def update():
         fire_laser()
     for laser in lasers:
         laser.y -= 10
+     
+for alien in aliens:
+            if laser.x > alien.x - alien.width * 0.5:
+                if laser.y > alien.y - alien.height * 0.5:
+                    if laser.x < alien.x + alien.width * 0.5:
+                        if laser.y < alien.y + alien.height * 0.5:
+                            aliens.remove(alien)
 def draw():
     screen.clear()
     player.draw()
